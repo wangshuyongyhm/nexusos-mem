@@ -1,0 +1,24 @@
+# intent_packs.yaml — intent_router.py 路由表（Task 282 P2-5）
+# 原 nexus/intent_router.py:43 _INTENT_PACKS 硬编码，现外置到 YAML
+# 格式: {正则模式: 约束包名}
+
+intent_packs:
+  "protocol|帧|packet|protobuf|网关|gateway|封包|opcode": protocol_analysis
+  "dispatch|派发|派|小弟|task|调度": dispatch_task
+  "init|初始化|恢复|启动|重启": initialization
+  "code|代码|patch|脚本|修复|bug|正则|regex": code_modification
+  "audit|审计|review|检查|评审|复核": system_audit
+  "落盘|commit|归档|persist|收工|梳理": session_persist
+
+# 每个约束包对应的约束文件（按优先级排序，前面的先注入）
+pack_files:
+  protocol_analysis: []  # 无固定约束文件——注入搜索提示
+  dispatch_task: ["dispatch.md"]
+  initialization: ["init.md"]
+  code_modification: ["init.md"]
+  system_audit: ["nexusos-mem.md"]
+  session_persist: ["persist.md"]
+  default: []  # 冷启动：只注入核心禁令 + 恢复锚点
+
+# token → 字符估算（中英混合 ~2.5 chars/token）
+chars_per_token: 2.5

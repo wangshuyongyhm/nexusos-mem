@@ -1,0 +1,12 @@
+# project_rules.yaml — embed_server.py 项目路由规则（示例版 · Task1949）
+# 正式版含私项目 keyword；OSS 部署按需改写（schema 不变）。
+
+# 规则数组（按顺序匹配，命中即返回 project 值）
+rules:
+  - keyword: demo-project-a
+    project: demo-project-a
+  - keyword: NEXUS
+    project: nexusos-mem
+
+# 默认值（无规则命中时）
+default: null

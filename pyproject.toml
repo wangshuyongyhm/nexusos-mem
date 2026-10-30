@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexusos-mem"
+version = "1.0.0"
+description = "NEXUS-MEM — 知识库+检索+打分体系（SharedKnowledge / pgvector / BGE 可选）"
+readme = "README.md"
+requires-python = ">=3.10"
+# PEP 621 旧式 text 表（非 SPDX 表达式）——保留 License classifier 不被新版
+# setuptools(≥77, PEP639) 拒绝：license="MIT" 字符串形态会与 classifier 冲突致
+# 干净 venv 安装失败（1609 实测 InvalidConfigError）。
+license = {text = "MIT"}
+authors = [{name = "NEXUS Contributors"}]
+classifiers = ["License :: OSI Approved :: MIT License"]
+# 池#72 依赖分层：核心件零重依赖。deps 为 Task631 逐文件实测顶部 import 结论
+# （任务书⚠️教训：勿信调研）——psycopg2 顶层 3 件（shared/search/embed_corpus）；
+# pyyaml 虽全懒但 /search 与 embed 服务路径必经（term_dict/config 加载）→ 核心。
+# BGE 系全部函数级懒 import（隔离面根基，陷阱7），缺席 FTS 兜底 → [full]。
+dependencies = ["psycopg2-binary>=2.9", "pyyaml>=5.4", "jieba>=0.42", "nexusos-common>=1.0,<2"]  # 1957 锚点单源
+
+[project.optional-dependencies]
+full = [
+    "sentence-transformers>=2.2",
+    "torch>=2.0",
+    "transformers>=4.30",
+    "FlagEmbedding>=1.2",
+]
+
+# 开源仓库落位（M1 脱敏建仓）后更新为真实主页；切片器不再补注（单一真源）
+[project.urls]
+Homepage = "https://github.com/nexus-family/nexusos-mem"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# config 已是真源实体（Task1597 炸点③收编：原 symlink→旧位的形态 wheel 打包
+# 0 yaml 缺件；旧位 nexus/config 反向 symlink 指回这里，vault 侧路径兼容）。
+nexusos_mem = ["config/*.yaml"]

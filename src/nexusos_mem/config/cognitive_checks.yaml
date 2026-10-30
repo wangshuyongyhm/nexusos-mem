@@ -1,0 +1,40 @@
+# cognitive_checks.yaml — cognitive.py 元暂停触发点（Task 282 P2-9）
+# 原 nexus/cognitive.py:133 META_PAUSE_TRIGGERS 硬编码，现外置到 YAML
+# task 241 修正版：体系硬门禁，4 个 trigger × 4 个 check（模式/边界/偏差/盲区）
+
+triggers:
+  pre_dispatch:
+    title: "dispatch 前体系检查（不依赖 LLM 自省）"
+    checks:
+      - "[模式验证] 小弟当前状态用 tmux capture-pane / curl 19999 看到了吗？还是 LLM 推断的？"
+      - "[边界检查] 任务书有歧义吗？已向 Hermes 确认了吗？还是 LLM 自己猜的？"
+      - "[偏差扫描] 默认了小弟有/没有的能力？这个默认是 LLM 训练数据偏见还是验证过？"
+      - "[盲区扫描] dispatch 是否在错误的层级？（如代码细节让分析小弟做）"
+    source: "Task 241 修正版——体系硬门禁"
+
+  pre_kill:
+    title: "kill 前体系检查"
+    checks:
+      - "[模式验证] 小弟真卡住/完成？看 19999 回调时间戳，不是看屏幕输出"
+      - "[边界检查] 有未保存产出？output/ 是否空？这是 grep 验证还是 LLM 推断？"
+      - "[偏差扫描] 假设『超时=卡死』——这是 LLM 默认模式，是否可能是模型在思考？"
+      - "[盲区扫描] kill 后是否影响其他依赖此小弟的任务？"
+    source: "Task 241 修正版——体系硬门禁"
+
+  pre_report:
+    title: "报告前体系检查"
+    checks:
+      - "[模式验证] 报告中陈述的事实都用 grep/curl/read 验证过吗？还是 LLM 凭记忆？"
+      - "[边界检查] 哪些是推断？标注了吗？（grep '应该|可能|预计' 看推断密度）"
+      - "[偏差扫描] 默认了用户已知/未知哪些背景？这是 LLM 训练偏差还是问过用户？"
+      - "[盲区扫描] 报告是否漏掉重要异常？（如测试通过但某模块没跑）"
+    source: "Task 241 修正版——体系硬门禁"
+
+  pre_archive:
+    title: "归档前体系检查"
+    checks:
+      - "[模式验证] 资产五层都齐全？ls 验证过吗？还是 LLM 以为齐全？"
+      - "[边界检查] 哪些产出是猜测？哪些是实测？"
+      - "[偏差扫描] 假设『用户能看懂报告』——是否真写了上下文？"
+      - "[盲区扫描] 这个 task 的失败模式有记录吗？（negative-results.md 存在？）"
+    source: "Task 241 修正版——体系硬门禁"

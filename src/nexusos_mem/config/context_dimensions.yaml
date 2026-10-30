@@ -1,0 +1,29 @@
+# context_dimensions.yaml — context_capture.py 语义组（Task 282 P2-8）
+# 原 nexus/context_capture.py:281 ENV_SEMANTIC_GROUPS 硬编码
+# task 266：env 的 host/vault/hostname 等键名变体同指"机器标识"，
+# 纯键名比对会过度惩罚。按语义角色分组，组内任一键存在即视为该角色已捕获。
+
+# env 维度语义角色分组（键名变体归一到语义角色）
+env_semantic_groups:
+  machine_id:
+    - host
+    - vault
+    - hostname
+    - machine_name
+    - hostname_local
+  os:
+    - os
+    - platform
+    - os_version
+  location:
+    - vault_path
+    - disk
+    - mount
+    - path
+
+# 核心维度（context_capture.py:419 CORE_DIMENSIONS）
+core_dimensions:
+  - task_type
+  - env
+  - phase
+  - data_state
