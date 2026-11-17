@@ -1,0 +1,45 @@
+# project_mapping.yaml — shadow_match.py 项目映射（示例版 · Task1949）
+# 正式版含私项目映射；OSS 部署按需改写本文件（schema 不变）。
+# 示例数据：demo-project-a / demo-project-b 两个虚构项目，展示全部键位用法。
+
+# 项目默认编码（project → 默认 SHADOW 编码前缀）
+project_default:
+  demo-project-a: DA   # 示例项目 A（编码前缀 DA*）
+  demo-project-b: DB   # 示例项目 B（编码前缀 DB*）
+  nexusos-mem: B
+  nm: B
+  system: B
+
+# knowledge.project → 命名空间（跨项目误配防护）
+project_ns:
+  demo-project-a: demo-project-a
+  demo-project-b: demo-project-b
+  nexusos-mem: system
+  nm: system
+  system: system
+
+# target 字段 → 命名空间推断规则（_code_namespace 用）
+# 按 key 顺序匹配，命中即返回
+namespace_rules:
+  - keyword: demo-project-a
+    ns: demo-project-a
+  - keyword: demo-project-b
+    ns: demo-project-b
+  - keyword: 02-skills
+    ns: skills
+  - keyword: skills
+    ns: skills
+  - keywords_any:
+      - nexus-constraint
+      - shadow
+      - 环境经验
+      - 体系运维
+      - 工作流
+      - 用户偏好
+      - 通用经验
+      - 检查点
+      - 经验治理
+      - 检索优先
+    ns: system
+  - keyword: demo-app
+    ns: demo-app

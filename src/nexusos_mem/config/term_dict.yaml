@@ -1,0 +1,30 @@
+# term_dict.yaml — search.py 查询扩展术语词典（示例版 · Task1949）
+# 正式版含私项目术语；OSS 部署按需改写（schema 不变：{术语key: [同义词列表]}）。
+
+# 示例项目术语
+demo-tool:
+  - demo tool
+  - 演示工具
+  - demo toolkit
+demo-pipeline:
+  - demo pipeline
+  - 演示流水线
+  - example workflow
+
+# 通用术语
+dispatch:
+  - 任务下发
+  - task dispatch
+  - start_tool
+callback:
+  - 回调
+  - "19999"   # 必须加引号：YAML 会把纯数字解析成 int，expand_query 的 " ".join() 撞 TypeError
+  - report
+search:
+  - 检索
+  - 向量搜索
+  - semantic search
+embed:
+  - 嵌入
+  - 向量编码
+  - bge-m3
